@@ -71,9 +71,12 @@ const options = {
 };
 flatpickr(refs.inputDatetime, options);
 // Start interval timer
-function startTimer() {
+function startTimer(e) {
   timer.start();
-  refs.btnStart.disabled = true;
+  if (e.type === 'click') {
+    e.target.style.background = '#dda808';
+  }
+  return (refs.btnStart.disabled = true);
 }
 
 // Add '0' example 00:00:01
