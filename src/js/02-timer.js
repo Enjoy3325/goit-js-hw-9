@@ -9,7 +9,7 @@ const refs = {
   field: document.querySelector('.field'),
 };
 // Styles
-document.body.style.backgroundColor = '#8073c9';
+document.body.style.backgroundColor = '#5632db';
 refs.inputDatetime.style.cssText =
   'width: 280px; height: 50px; font-size: xx-large; margin-bottom: 20px; color:#021216; background-color: #1eb0d2; border:1px solid white; border-radius: 10px; display: flex; flex-direction: justify-content; text-align: center';
 refs.btnStart.style.cssText =
@@ -17,14 +17,14 @@ refs.btnStart.style.cssText =
 refs.timerDiv.style.cssText =
   'display-flex: center; flex-direction: justify-column; font-size: x-large';
 
-convertDate = {};
+let convertDate = {};
 let timerSet = null;
 let timeInit = 0;
 const timer = {
   start() {
     const curentTime = Date.now();
     console.log(curentTime);
-    // const startTime = selectedDate;
+
     timerSet = setInterval(() => {
       const deltaTime = (timeInit -= 1000);
       convertDate = convertMs(deltaTime);
@@ -33,7 +33,7 @@ const timer = {
           convertDate[elem]
         );
       });
-      // console.log(convertMs(deltaTime));
+
       if (deltaTime < 1000) {
         clearInterval(timerSet);
       }
@@ -43,8 +43,7 @@ const timer = {
 
 // Listeners
 refs.btnStart.addEventListener('click', startTimer);
-// refs.btnStart.addEventListener('mouseover', onHoverBtn);
-// refs.btnStart.addEventListener('mouseout', onHoverBtn);
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -52,14 +51,20 @@ const options = {
   minuteIncrement: 1,
 
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    // console.log(selectedDates[0]);
     if (selectedDates[0] < Date.now()) {
+      refs.btnStart.disabled = true;
+      refs.btnStart.style.background = 'red';
+      // console.dir(refs.btnStart);
       return Notify.failure('Please choose a date in the future');
     } else {
       // Разница между будущим и настоящим временем
       timeInit = selectedDates[0] - options.defaultDate;
+      refs.btnStart.disabled = false;
+      // console.log(selectedDates[0]);
       convertDate = convertMs(timeInit);
       Object.keys(convertDate).forEach(elem => {
+        console.log(convertDate[elem]);
         document.querySelector(`span[data-${elem}]`).innerHTML = addLeadingZero(
           convertDate[elem]
         );
@@ -73,6 +78,7 @@ flatpickr(refs.inputDatetime, options);
 // Start interval timer
 function startTimer(e) {
   timer.start();
+  console.log(e);
   if (e.type === 'click') {
     e.target.style.background = '#dda808';
   }
@@ -101,11 +107,3 @@ function convertMs(ms) {
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   return { days, hours, minutes, seconds };
 }
-// function onHoverBtn(e) {
-//   if (e.type === 'mouseover') {
-//     e.target.style.background = '#dda808';
-//     if (e.type === 'mouseout') {
-//       e.target.style.background = '#1eb0d2';
-//     }
-//   }
-// }

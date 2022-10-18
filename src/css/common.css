@@ -16,3 +16,10 @@ img {
   display: block;
   max-width: 100%;
 }
+span {
+  color: #fafafa;
+}
+.form {
+  display: flex;
+  justify-content: space-around;
+}
