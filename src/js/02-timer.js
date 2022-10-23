@@ -79,10 +79,10 @@ flatpickr(refs.inputDatetime, options);
 function startTimer(e) {
   timer.start();
   console.log(e);
-  if (e.type === 'click') {
+  if (e.type === refs.btnStart) {
     e.target.style.background = '#dda808';
   }
-  return (refs.btnStart.disabled = true);
+  return (refs.btnStart.disabled = false);
 }
 
 // Add '0' example 00:00:01

@@ -17,6 +17,7 @@ function createPromise(position, delay) {
 
 function onStartForm(e) {
   e.preventDefault();
+  console.log(e);
   const clikCurrentTg = e.currentTarget.elements;
   let delayCurrent = Number(clikCurrentTg.delay.value);
   const amountCurrent = Number(clikCurrentTg.amount.value);
